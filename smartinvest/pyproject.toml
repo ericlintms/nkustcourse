@@ -1,0 +1,18 @@
+[project]
+name = "smartinvest"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "backtesting>=0.6.5",
+    "bs4>=0.0.2",
+    "fastapi>=0.116.1",
+    "matplotlib>=3.10.5",
+    "mplfinance>=0.12.10b0",
+    "pandas>=2.3.2",
+    "requests>=2.32.5",
+    "seaborn>=0.13.2",
+    "ta-lib>=0.6.5",
+    "uvicorn>=0.35.0",
+]
