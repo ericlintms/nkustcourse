@@ -1,0 +1,7 @@
+撰寫一個腳本，使用 `requests` 和 `BeautifulSoup` 函式庫來爬取網站 `http://example.com` 的主要標題 (h1 標籤)。
+
+腳本應該印出該標題的文字內容。
+
+請確保為網路請求包含錯誤處理。
+
+(注意: 這個練習需要安裝 `requests` 和 `beautifulsoup4` 函式庫: `pip install requests beautifulsoup4`)

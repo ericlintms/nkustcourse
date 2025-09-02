@@ -1,0 +1,9 @@
+這是一個整合性的迷你專案。請使用 FastAPI 和 Jinja2 建立一個單頁的網頁儀表板。
+
+**功能要求:**
+1.  後端需要一個 `/dashboard` 端點。
+2.  這個端點會渲染一個 HTML 範本。
+3.  前端 HTML 頁面需要使用 Chart.js (一個 JavaScript 圖表函式庫) 來顯示一個簡單的長條圖。
+4.  圖表的數據（例如：股票代碼 vs. 價格）必須從 FastAPI 後端傳遞到 Jinja2 範本中。
+
+(注意: 除了 fastapi, uvicorn, jinja2, 你不需要在後端安裝 chart.js，它將透過 CDN 在前端載入)

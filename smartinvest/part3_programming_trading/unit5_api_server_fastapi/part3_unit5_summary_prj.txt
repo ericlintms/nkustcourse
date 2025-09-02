@@ -1,0 +1,13 @@
+使用 `FastAPI` 函式庫，建立一個簡單的 Web 伺服器。
+
+伺服器需要包含一個 `/hello` 的 API 端點 (endpoint)。
+
+當使用者用瀏覽器或工具訪問 `http://127.0.0.1:8000/hello` 時，它應該回傳一個 JSON 格式的的回應：
+
+```json
+{
+  "message": "Hello, Trader!"
+}
+```
+
+(注意: 需要安裝 `fastapi` 和 `uvicorn`: `pip install fastapi "uvicorn[standard]"`)

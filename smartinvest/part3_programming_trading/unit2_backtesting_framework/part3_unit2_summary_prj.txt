@@ -1,0 +1,9 @@
+使用 `backtesting.py` 函式庫，定義一個名為 `MyFirstStrategy` 的基本策略類別。
+
+這個類別需要繼承自 `backtesting.Strategy`。
+
+目前，它的 `init` 方法和 `next` 方法都應該是空的 (僅包含 `pass`)。
+
+這個練習的目標是建立一個最基礎的策略類別結構。
+
+(注意: 需要安裝 `backtesting` 函式庫: `pip install backtesting`)

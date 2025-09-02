@@ -1,0 +1,10 @@
+假設你有一個包含股票代碼的 Python 列表。
+
+請使用 `FastAPI` 和 `Jinja2Templates` 來渲染一個 HTML 頁面，該頁面需要將這個列表中的所有股票代碼顯示在一個無序列表 (`<ul>`) 中。
+
+**要求:**
+1.  建立一個 FastAPI 主程式。
+2.  建立一個 `templates` 資料夾，並在其中放置一個 HTML 範本檔案。
+3.  FastAPI 應能讀取 Python 列表，並將其傳遞給 HTML 範本進行渲染。
+
+(注意: 需要安裝 `fastapi`, `uvicorn`, `jinja2`: `pip install fastapi "uvicorn[standard]" jinja2`)

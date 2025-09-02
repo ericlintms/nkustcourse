@@ -1,0 +1,11 @@
+撰寫一個 Python 腳本，完成以下兩件事：
+
+1.  首先，建立一個名為 `products.csv` 的 CSV 檔案，包含以下內容：
+    ```
+    product_id,product_name,price
+    1,Laptop,1200
+    2,Mouse,25
+    3,Keyboard,75
+    ```
+
+2.  然後，讀取這個 `products.csv` 檔案，並將每一列的內容以字典的形式印出。

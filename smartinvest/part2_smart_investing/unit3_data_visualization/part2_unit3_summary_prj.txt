@@ -1,0 +1,14 @@
+給定兩個列表 `years` 和 `sales`。
+
+請使用 `matplotlib` 函式庫撰寫一個 Python 腳本，建立一個簡單的折線圖來顯示歷年的銷售額。
+
+圖表應包含：
+-   一個標題：'Annual Sales'
+-   X 軸標籤：'Year'
+-   Y 軸標籤：'Sales (in millions)'
+
+```python
+# 數據
+years = [2018, 2019, 2020, 2021, 2022]
+sales = [10, 12, 15, 14, 18]
+```

@@ -1,0 +1,23 @@
+觀察以下假設的回測結果報告，並回答問題。
+
+```
+Start                     2010-01-01
+End                       2022-12-31
+Duration                  4748 days
+Exposure Time [%]         95.2
+Equity Final [$]          185432.54
+Equity Peak [$]           191234.88
+Return [%]                85.43
+Max. Drawdown [%]         -22.5
+Win Rate [%]              45.8
+Best Trade [%]            15.2
+Worst Trade [%]           -8.9
+Avg. Trade [%]            0.75
+Sharpe Ratio              0.68
+```
+
+1.  在整個回測期間，這個策略的總回報率是多少？
+
+2.  策略從資金高峰到低谷的最大回撤（Max. Drawdown）是多少？你認為這個數值算高還是低？
+
+3.  此策略的勝率（Win Rate）低於 50%。這是否代表這個策略一定不賺錢？為什麼？（提示：觀察 Avg. Trade, Best Trade, 和 Worst Trade）
