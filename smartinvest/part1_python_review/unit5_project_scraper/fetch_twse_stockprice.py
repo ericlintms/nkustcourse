@@ -6,8 +6,10 @@ import json
 from datetime import datetime
 import sqlite3
 import re
+from typing import List, Tuple, Any, Dict
+from dataclasses import dataclass
 
-def parse_change_html(html_str):
+def parse_change_html(html_str: str) -> Tuple[str, str]:
     """
     解析漲跌欄位的 HTML 標籤，提取顏色和符號
 
@@ -29,42 +31,37 @@ def parse_change_html(html_str):
 
     return color, symbol
 
+@dataclass
 class Stock:
-    def __init__(self, code, name, volume, trades, amount, open_price, high, low, close, color, symbol, change_price, bid_price, bid_volume, ask_price, ask_volume, pe_ratio):
-        self.code = code
-        self.name = name
-        self.volume = volume
-        self.trades = trades
-        self.amount = amount
-        self.open_price = open_price
-        self.high = high
-        self.low = low
-        self.close = close
-        self.color = color
-        self.symbol = symbol
-        self.change_price = change_price
-        self.bid_price = bid_price
-        self.bid_volume = bid_volume
-        self.ask_price = ask_price
-        self.ask_volume = ask_volume
-        self.pe_ratio = pe_ratio
+    code: str
+    name: str
+    volume: str
+    trades: str
+    amount: str
+    open_price: str
+    high: str
+    low: str
+    close: str
+    color: str
+    symbol: str
+    change_price: str
+    bid_price: str
+    bid_volume: str
+    ask_price: str
+    ask_volume: str
+    pe_ratio: str
 
-    def __repr__(self):
-        return f"Stock(code={self.code}, name={self.name}, close={self.close}, color={self.color}, symbol={self.symbol})"
-
+@dataclass
 class MarketIndex:
-    def __init__(self, name, close, change_direction, change_points, change_percent, note):
-        self.name = name
-        self.close = close
-        self.change_direction = change_direction
-        self.change_points = change_points
-        self.change_percent = change_percent
-        self.note = note
+    name: str
+    close: str
+    color: str
+    symbol: str
+    change_points: str
+    change_percent: str
+    note: str
 
-    def __repr__(self):
-        return f"MarketIndex(name={self.name}, close={self.close}, change_percent={self.change_percent})"
-
-def fetch_twse_data(date_str):
+def fetch_twse_data(date_str: str) -> Tuple[List[Stock], List[MarketIndex]]:
     """
     抓取台灣證券交易所特定日期的股市資料
 
@@ -77,12 +74,12 @@ def fetch_twse_data(date_str):
     url = f"https://www.twse.com.tw/rwd/zh/afterTrading/MI_INDEX?date={date_str}&type=ALLBUT0999&response=json"
 
     try:
-        response = requests.get(url)
+        response: requests.Response = requests.get(url)
         response.raise_for_status()
-        data = response.json()
+        data: Dict[str, Any] = response.json()
 
-        stocks = []
-        indices = []
+        stocks: List[Stock] = []
+        indices: List[MarketIndex] = []
 
         for table in data.get('tables', []):
             title = table.get('title', '')
@@ -120,10 +117,14 @@ def fetch_twse_data(date_str):
                 # 解析指數資料
                 for row in table_data:
                     if len(row) >= 6:
+                        # 解析漲跌欄位的 HTML 標籤
+                        color, symbol = parse_change_html(row[2])
+
                         index = MarketIndex(
                             name=row[0],
                             close=row[1].replace(',', ''),
-                            change_direction=row[2],
+                            color=color,
+                            symbol=symbol,
                             change_points=row[3].replace(',', ''),
                             change_percent=row[4],
                             note=row[5]
@@ -139,7 +140,7 @@ def fetch_twse_data(date_str):
         print(f"JSON 解析錯誤: {e}")
         return [], []
 
-def save_to_database(stocks, indices, db_path='twse_data.db'):
+def save_to_database(stocks: List[Stock], indices: List[MarketIndex], db_path: str = 'twse_data.db') -> None:
     """
     將資料儲存到 SQLite 資料庫
 
@@ -148,8 +149,8 @@ def save_to_database(stocks, indices, db_path='twse_data.db'):
         indices (list): MarketIndex 物件列表
         db_path (str): 資料庫檔案路徑
     """
-    conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
+    conn: sqlite3.Connection = sqlite3.connect(db_path)
+    cursor: sqlite3.Cursor = conn.cursor()
 
     # 建立股票資料表
     cursor.execute('DROP TABLE IF EXISTS stocks')
@@ -177,11 +178,13 @@ def save_to_database(stocks, indices, db_path='twse_data.db'):
     ''')
 
     # 建立指數資料表
+    cursor.execute('DROP TABLE IF EXISTS indices')
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS indices (
+        CREATE TABLE indices (
             name TEXT PRIMARY KEY,
             close REAL,
-            change_direction TEXT,
+            color TEXT,
+            symbol TEXT,
             change_points REAL,
             change_percent REAL,
             note TEXT,
@@ -190,15 +193,15 @@ def save_to_database(stocks, indices, db_path='twse_data.db'):
     ''')
 
     # 插入股票資料
-    current_date = datetime.now().strftime('%Y-%m-%d')
+    current_date: str = datetime.now().strftime('%Y-%m-%d')
     for stock in stocks:
-        def safe_float(value):
+        def safe_float(value: Any) -> float:
             try:
                 return float(value) if value and value != '--' else 0.0
             except (ValueError, TypeError):
                 return 0.0
 
-        def safe_int(value):
+        def safe_int(value: Any) -> int:
             try:
                 return int(value) if value and value != '--' else 0
             except (ValueError, TypeError):
@@ -220,10 +223,10 @@ def save_to_database(stocks, indices, db_path='twse_data.db'):
     for index in indices:
         cursor.execute('''
             INSERT OR REPLACE INTO indices
-            (name, close, change_direction, change_points, change_percent, note, date)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            (name, close, color, symbol, change_points, change_percent, note, date)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         ''', (
-            index.name, safe_float(index.close), index.change_direction, safe_float(index.change_points),
+            index.name, safe_float(index.close), index.color, index.symbol, safe_float(index.change_points),
             safe_float(index.change_percent), index.note, current_date
         ))
 
@@ -234,7 +237,9 @@ def save_to_database(stocks, indices, db_path='twse_data.db'):
 # 使用範例
 if __name__ == "__main__":
     # 抓取指定日期的資料
-    date = "20250902"
+    date: str = "20250902"
+    stocks: List[Stock]
+    indices: List[MarketIndex]
     stocks, indices = fetch_twse_data(date)
 
     print(f"抓取到 {len(stocks)} 支股票資料")
@@ -250,7 +255,3 @@ if __name__ == "__main__":
 
     # 儲存到資料庫
     save_to_database(stocks, indices)
-
-
-
-
