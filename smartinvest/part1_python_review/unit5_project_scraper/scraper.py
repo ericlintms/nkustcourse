@@ -24,7 +24,9 @@ class StockScraper:
     def parse_price(self, response):
         if response is None:
             return None
-        
+
+        print(f"Content: {response.text}")
+
         try:
             soup = BeautifulSoup(response.text, 'html.parser')
             # 這裡的 selector 需要根據實際網頁結構調整
