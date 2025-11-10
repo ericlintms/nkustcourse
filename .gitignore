@@ -209,3 +209,4 @@ smartinvest/**/*.csv
 smartinvest/uv.lock
 smartinvest/twse_data.db
 smartinvest/part1_python_review/unit5_project_scraper/stk_prices.json
+portfolio_ana/uv.lock
