@@ -4,7 +4,7 @@ import time
 import numpy as np
 
 # --- 設定 ---
-OLLAMA_URL = "http://10.1.58.3:11434/api/generate"
+OLLAMA_URL = "http://163.18.46.187:22434/api/generate"
 OLLAMA_MODEL = "gemma3:4b" # ! 請修改為您在 Ollama 下載的模型名稱
 FIN_DATA_PATH = "data/financial_data_filtered.csv"
 SELECTED_STOCKS_PATH = "selected_stocks.csv"
