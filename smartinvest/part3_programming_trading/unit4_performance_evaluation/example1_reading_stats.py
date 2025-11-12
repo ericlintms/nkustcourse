@@ -2,7 +2,6 @@
 
 from backtesting import Backtest, Strategy
 from backtesting.test import SMA, GOOG
-from backtesting.lib import crossover
 
 class SmaCross(Strategy):
     n1 = 10

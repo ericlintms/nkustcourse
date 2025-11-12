@@ -1,5 +1,0 @@
-撰寫一個名為 `calculate_pe_ratio` 的函式，它接受 `price_per_share` (每股價格) 和 `earnings_per_share` (每股盈餘) 作為參數，用來計算本益比 (P/E Ratio)。
-
-函式需要處理 `earnings_per_share` 為 0 或負數的情況。在這種情況下，函式應回傳 `None`。
-
-請測試你的函式，包含一個正常情況和一個 EPS 為 0 的情況。

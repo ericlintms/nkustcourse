@@ -1,7 +1,6 @@
 # 範例 3: 簡單的靜態資產配置模型
 
 import pandas as pd
-import matplotlib.pyplot as plt
 
 # 假設有兩支ETF的歷史價格
 data = {
@@ -50,4 +49,4 @@ portfolio.run_simulation(df)
 print("--- 投資組合每日價值 ---")
 print(portfolio.portfolio_value)
 
-portfolio.plot_performance() # 需要 matplotlib
+# portfolio.plot_performance() # 需要 matplotlib

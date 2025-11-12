@@ -15,7 +15,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from backtesting import Backtest, Strategy
 from backtesting.test import SMA, GOOG
-from backtesting.lib import crossover
+import pandas as pd
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
@@ -55,7 +55,7 @@ async def run_backtest(request: Request, fast_ma: int = Form(...), slow_ma: int 
         "stats": stats.to_dict(), # 將績效 Series 轉為字典
         "equity_curve": stats['_equity_curve']['Equity'].to_json() # 傳遞資金曲線數據
     }
-    return templates.TemplateResponse("dashboard.html.j2", context)
+    return templates.TemplateResponse("dashboard.html", context)
 
 
 # --- 3. 前端模板 (templates/dashboard.html) ---

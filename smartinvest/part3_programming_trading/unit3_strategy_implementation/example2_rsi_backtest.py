@@ -1,8 +1,7 @@
 # 範例 2: 回測 RSI 超買超賣策略
 
 from backtesting import Backtest, Strategy
-from backtesting.test import GOOG
-import talib
+from backtesting.test import RSI, GOOG
 
 class RsiOscillator(Strategy):
     # 策略參數
@@ -12,7 +11,7 @@ class RsiOscillator(Strategy):
 
     def init(self):
         # 計算 RSI 指標
-        self.rsi = self.I(talib.RSI, self.data.Close, self.rsi_period)
+        self.rsi = self.I(RSI, self.data.Close, self.rsi_period)
 
     def next(self):
         # 如果 RSI 跌破超賣區，買入

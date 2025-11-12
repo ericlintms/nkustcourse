@@ -24,7 +24,7 @@ async def read_root(request: Request):
     # 準備要傳遞到模板中的資料
     data = {
         "page_title": "我的第一個模板網頁",
-        "user_name": "SmartInvest"
+        "user_name": "Gemini"
     }
     
     # request: 必須傳入的請求物件

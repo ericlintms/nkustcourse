@@ -20,13 +20,13 @@ for i in range(2, len(prices)):
     # --- 買入條件 ---
     # 如果價格連續兩天上涨，且我們目前沒有部位
     if current_price > prev_price_1 and prev_price_1 > prev_price_2 and not position:
-        print("  -> 訊號: 連續上漲，執行買入！")
+        print(f"  -> 訊號: 連續上漲，執行買入！")
         position = True
         
     # --- 賣出條件 ---
     # 如果價格連續兩天下跌，且我們目前持有部位
     elif current_price < prev_price_1 and prev_price_1 < prev_price_2 and position:
-        print("  -> 訊號: 連續下跌，執行賣出！")
+        print(f"  -> 訊號: 連續下跌，執行賣出！")
         position = False
     else:
         print("  -> 訊號: 無，繼續觀察")

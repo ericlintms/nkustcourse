@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>交易儀表板</title>
+    <style>
+        body { font-family: sans-serif; display: flex; }
+        .sidebar { width: 250px; padding: 20px; border-right: 1px solid #ccc; }
+        .main-content { flex-grow: 1; padding: 20px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+    <!-- 引入 Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>策略參數</h2>
+        <form action="/run_backtest" method="post">
+            <label for="fast_ma">快線週期 (n1):</label><br>
+            <input type="number" id="fast_ma" name="fast_ma" value="10"><br><br>
+            <label for="slow_ma">慢線週期 (n2):</label><br>
+            <input type="number" id="slow_ma" name="slow_ma" value="20"><br><br>
+            <input type="submit" value="執行回測">
+        </form>
+    </div>
+
+    <div class="main-content">
+        <h1>回測結果</h1>
+        {% if stats %}
+            <div id="stats-table">
+                <h3>績效指標</h3>
+                <table>
+                    {% for key, value in stats.items() %}
+                        <tr>
+                            <th>{{ key }}</th>
+                            <td>
+                                {# 對數字做格式化 #}
+                                {% if value is number and value > 1000 %}
+                                    {{ "{:,.0f}".format(value) }}
+                                {% elif value is number %}
+                                    {{ "{:.2f}".format(value) }}
+                                {% else %}
+                                    {{ value }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div id="chart-container" style="margin-top: 20px;">
+                <h3>資金曲線</h3>
+                <canvas id="equityChart"></canvas>
+            </div>
+            
+            <script>
+                // 從後端接收 JSON 格式的資金曲線資料
+                const equityData = {{ equity_curve | safe }};
+                const ctx = document.getElementById('equityChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: Object.keys(equityData),
+                        datasets: [{
+                            label: 'Equity Curve',
+                            data: Object.values(equityData),
+                            borderColor: 'rgb(75, 192, 192)',
+                            tension: 0.1
+                        }]
+                    }
+                });
+            </script>
+        {% else %}
+            <p>請在左側輸入參數並執行回測。</p>
+        {% endif %}
+    </div>
+</body>
+</html>
